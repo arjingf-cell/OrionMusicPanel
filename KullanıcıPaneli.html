@@ -891,187 +891,198 @@
         </div><!-- /panel-layout -->
     </div><!-- /main-panel -->
 
-    <script type="module">
-        import { initializeApp }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
 
-        // ---- Firebase Config ----
-        const firebaseConfig = {
-            apiKey: "AIzaSyBuo9yrHDUZ5U3wYCydk8n_iR8HGtsY3o0",
-            authDomain: "orion-music-panel.firebaseapp.com",
-            projectId: "orion-music-panel",
-            storageBucket: "orion-music-panel.firebasestorage.app",
-            messagingSenderId: "357473854743",
-            appId: "1:357473854743:web:c96bda4713ef9796db4352"
-        };
+        const SUPABASE_URL = 'https://YOUR_PROJECT_URL.supabase.co';
+        const SUPABASE_KEY = 'YOUR_ANON_KEY';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
-
-        // ---- Auth State ----
-        onAuthStateChanged(auth, (user) => {
+        // 2. Auth State (Oturum Yönetimi)
+        _supabase.auth.onAuthStateChange((event, session) => {
             const authScreen = document.getElementById('auth-screen');
             const mainPanel = document.getElementById('main-panel');
-            if (user) {
+
+            // Elemanların sayfada olup olmadığını kontrol edelim (hata almamak için)
+            if (!authScreen || !mainPanel) return;
+
+            if (session && session.user) {
+                // Kullanıcı giriş yapmışsa
                 authScreen.style.display = 'none';
                 mainPanel.style.display = 'block';
-                loadUserSongs(user.uid);
+
+                // Verileri yükle
+                loadUserSongs(session.user.id);
             } else {
+                // Kullanıcı çıkış yapmışsa veya oturum yoksa
                 authScreen.style.display = 'flex';
                 mainPanel.style.display = 'none';
             }
         });
 
-        // ---- Şarkıları Yükle ----
+        // ---- Şarkıyı Yükle (Veri Çekme) ----
         async function loadUserSongs(uid) {
-            try {
-                const q = query(collection(db, "pendingReleases"), where("uid", "==", uid));
-                const snapshot = await getDocs(q);
-                const grid = document.getElementById('songs-grid');
-                const noMsg = document.getElementById('no-songs-msg');
+            const grid = document.getElementById('songs-grid');
+            const noMsg = document.getElementById('no-songs-msg');
+            const activeCountEl = document.getElementById('active-songs-count');
+            const pendingCountEl = document.getElementById('pending-songs-count');
 
-                if (snapshot.empty) {
+            try {
+                // Supabase üzerinden veriyi çekiyoruz
+                const { data: songs, error } = await _supabase
+                    .from('pending_releases')
+                    .select('*')
+                    .eq('uid', uid)
+                    .order('created_at', { ascending: false }); // En yeni en üstte
+
+                if (error) throw error;
+
+                // Eğer hiç şarkı yoksa ekranı temizle ve mesajı göster
+                if (!songs || songs.length === 0) {
+                    grid.innerHTML = '';
                     if (noMsg) noMsg.style.display = 'block';
-                    document.getElementById('active-songs-count').textContent = '0';
-                    document.getElementById('pending-songs-count').textContent = '0';
+                    activeCountEl.textContent = '0';
+                    pendingCountEl.textContent = '0';
                     return;
                 }
 
+                // Şarkı varsa mesajı gizle ve listeyi oluştur
                 if (noMsg) noMsg.style.display = 'none';
                 grid.innerHTML = '';
-                let approved = 0, pending = 0;
 
-                snapshot.forEach(doc => {
-                    const d = doc.data();
-                    if (d.status === 'approved') approved++;
-                    else pending++;
+                let approvedCount = 0;
+                let pendingCount = 0;
+
+                // DocumentFragment kullanarak DOM performansını artırıyoruz
+                const fragment = document.createDocumentFragment();
+
+                songs.forEach(song => {
+                    const isApproved = song.status === 'approved';
+                    isApproved ? approvedCount++ : pendingCount++;
 
                     const card = document.createElement('div');
                     card.className = 'song-card';
                     card.innerHTML = `
-                    <div class="song-img-container"></div>
-                    <div class="song-info">
-                        <h4>${d.songName || 'İsimsiz'}</h4>
-                        <p>${d.artistName || ''} · ${d.releaseDate || ''}</p>
-                    </div>
-                    <span class="song-status ${d.status === 'approved' ? 'status-approved' : 'status-pending'}">
-                        ${d.status === 'approved' ? '✔ Onaylandı' : '⏳ İnceleniyor'}
-                    </span>
-                `;
-                    grid.appendChild(card);
+                        <div class="song-img-container" style="background-image: url('${song.cover_url}'); background-size: cover;"></div>
+                        <div class="song-info">
+                            <h4>${song.song_name || 'İsimsiz'}</h4>
+                            <p>${song.artist_name || 'Bilinmeyen Sanatçı'} · ${song.release_date || 'Tarih Belirtilmedi'}</p>
+                        </div>
+                        <span class="song-status ${isApproved ? 'status-approved' : 'status-pending'}">
+                            ${isApproved ? '✔ Onaylandı' : '⏳ İnceleniyor'}
+                        </span>
+                    `;
+                    fragment.appendChild(card);
                 });
 
-                document.getElementById('active-songs-count').textContent = approved;
-                document.getElementById('pending-songs-count').textContent = pending;
-            } catch (e) {
-                console.error("Şarkılar yüklenemedi:", e);
+                grid.appendChild(fragment);
+                activeCountEl.textContent = approvedCount;
+                pendingCountEl.textContent = pendingCount;
+
+            } catch (err) {
+                console.error("Veri yüklenirken hata oluştu:", err.message);
             }
         }
 
         // ---- Global Fonksiyonlar ----
+
         window.handleAuth = async () => {
             const email = document.getElementById('email').value.trim();
             const pass = document.getElementById('password').value;
             if (!email || !pass) return alert("Lütfen alanları doldurun!");
-            try {
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch {
-                try {
-                    await createUserWithEmailAndPassword(auth, email, pass);
-                } catch (err2) {
-                    alert("Hata: " + err2.message);
-                }
+
+            // Önce giriş yapmayı dene
+            const { data, error: signInError } = await _supabase.auth.signInWithPassword({ email, password: pass });
+
+            if (signInError) {
+                // Giriş başarısızsa (kullanıcı yoksa) kayıt etmeyi dene
+                const { error: signUpError } = await _supabase.auth.signUp({ email, password: pass });
+                if (signUpError) alert("Hata: " + signUpError.message);
+                else alert("Kayıt başarılı! Lütfen varsa e-posta onayınızı kontrol edin.");
             }
         };
 
-        window.signOutUser = () => signOut(auth);
-
-        window.showPage = (pageId, el) => {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const target = document.getElementById(pageId);
-            if (target) target.classList.add('active-page');
-            if (el) el.classList.add('active');
-        };
-
-        window.previewImage = (input) => {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const preview = document.getElementById('cover-preview');
-                    preview.style.backgroundImage = `url(${e.target.result})`;
-                    preview.textContent = '';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+        window.signOutUser = async () => {
+            const { error } = await _supabase.auth.signOut();
+            if (error) console.error("Çıkış hatası:", error.message);
         };
 
         window.submitRelease = async () => {
-            // Form verilerini topluyoruz
             const title = document.getElementById('release-title').value.trim();
             const artist = document.getElementById('release-artist').value.trim();
             const date = document.getElementById('release-date-input').value;
             const coverFile = document.getElementById('cover-input').files[0];
             const audioFile = document.getElementById('audio-file').files[0];
-            const user = auth.currentUser;
 
-            // Kontroller: Biri bile eksikse Firebase hata verir
-            if (!user) return alert("Lütfen önce giriş yapın.");
-            if (!coverFile || !audioFile) return alert("Lütfen hem kapak fotoğrafını hem de ses dosyasını seçin.");
-            if (!title || !date) return alert("Lütfen tüm alanları doldurun.");
+            // Zorunlu alan kontrolü
+            if (!title || !date || !coverFile || !audioFile) {
+                return alert("Lütfen tüm zorunlu alanları (İsim, Tarih, Kapak, Ses) doldurun!");
+            }
+
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) return alert("Giriş yapmalısınız!");
 
             const btn = document.querySelector('button[onclick="submitRelease()"]');
 
             try {
-                // Kullanıcıya yüklemenin başladığını gösteriyoruz
+                btn.textContent = "Yükleniyor...";
                 btn.disabled = true;
-                btn.textContent = "Dosyalar Hazırlanıyor...";
 
-                // 1. ADIM: Kapak fotoğrafını Storage'a yükle
-                const coverRef = ref(storage, `covers/${user.uid}/${Date.now()}_cover.jpg`);
-                await uploadBytes(coverRef, coverFile);
-                const coverUrl = await getDownloadURL(coverRef);
-                btn.textContent = "Şarkı Yükleniyor (%50)...";
+                // Dosya isimlerini temizleyelim (boşlukları alt tire yapıyoruz)
+                const cleanFileName = (name) => name.replace(/\s+/g, '_').toLowerCase();
 
-                // 2. ADIM: Ses dosyasını Storage'a yükle
-                const audioRef = ref(storage, `songs/${user.uid}/${Date.now()}_audio.mp3`);
-                await uploadBytes(audioRef, audioFile);
-                const audioUrl = await getDownloadURL(audioRef);
-                btn.textContent = "Veritabanına Kaydediliyor...";
+                // 1. Kapak Yükle
+                const coverPath = `covers/${user.id}/${Date.now()}_${cleanFileName(coverFile.name)}`;
+                const { error: coverErr } = await _supabase.storage
+                    .from('Gonderilen Yayinlar')
+                    .upload(coverPath, coverFile);
+                if (coverErr) throw new Error("Kapak yüklenemedi: " + coverErr.message);
 
-                // 3. ADIM: Tüm linkleri Firestore'a yaz
-                await addDoc(collection(db, "pendingReleases"), {
-                    songName: title,
-                    artistName: artist || "Bilinmiyor",
-                    releaseDate: date,
-                    coverUrl: coverUrl,
-                    audioUrl: audioUrl,
-                    status: "pending",
-                    uid: user.uid,
-                    createdAt: serverTimestamp()
-                });
+                const coverUrl = _supabase.storage.from('Gonderilen Yayinlar').getPublicUrl(coverPath).data.publicUrl;
 
-                showAlert("🚀", "Başarılı!", "Yayınınız Orion Music sistemine başarıyla yüklendi.");
-                loadUserSongs(user.uid); // Listeyi yenile
-                showPage('dashboard');   // Ana sayfaya dön
+                // 2. Ses Yükle
+                const audioPath = `songs/${user.id}/${Date.now()}_${cleanFileName(audioFile.name)}`;
+                const { error: audioErr } = await _supabase.storage
+                    .from('Gonderilen Yayinlar')
+                    .upload(audioPath, audioFile);
+                if (audioErr) throw new Error("Ses dosyası yüklenemedi: " + audioErr.message);
 
-            } catch (error) {
-                console.error("Yükleme Hatası:", error);
-                alert("Bir hata oluştu: " + error.message);
+                const audioUrl = _supabase.storage.from('Gonderilen Yayinlar').getPublicUrl(audioPath).data.publicUrl;
+
+                // 3. Veritabanı Kaydı
+                const { error: insertErr } = await _supabase
+                    .from('pending_releases')
+                    .insert([{
+                        song_name: title,
+                        artist_name: artist || "Bilinmiyor",
+                        release_date: date,
+                        cover_url: coverUrl,
+                        audio_url: audioUrl,
+                        status: "pending",
+                        uid: user.id
+                    }]);
+
+                if (insertErr) throw insertErr;
+
+                showAlert("🚀", "Başarılı!", "Yayınınız onaya gönderildi.");
+
+                // Formu temizle
+                document.getElementById('release-title').value = '';
+                document.getElementById('release-artist').value = '';
+                document.getElementById('cover-input').value = '';
+                document.getElementById('audio-file').value = '';
+                document.getElementById('cover-preview').style.backgroundImage = 'none';
+                document.getElementById('cover-preview').textContent = 'Kapak Seç';
+
+                loadUserSongs(user.id);
+
+            } catch (e) {
+                alert(e.message);
             } finally {
                 btn.disabled = false;
                 btn.textContent = "Yayını Onaya Gönder";
             }
         };
-
         window.handleDateClick = (e) => {
             // e.preventDefault();  <-- BU SATIRI SİLDİK veya YORUMA ALDIK
 
