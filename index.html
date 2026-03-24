@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orion Music - Admin Control Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* İstatistik Kartları Konteynırı */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Tekil Kart Tasarımı */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* Sayfaların gizlenip açılması için */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Sol menüdeki butonların tasarımı */
+        .nav-item {
+            padding: 15px 20px;
+            margin: 8px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #888;
+        }
+
+        /* Aktif (seçili) butonun rengi */
+        .nav-item.active {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: white;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SOL MENÜ (SIDEBAR) */
+        .sidebar {
+            width: 260px;
+            background-color: #050505;
+            border-right: 1px solid #111;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 0;
+        }
+
+        .logo {
+            padding: 0 25px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #888;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #111;
+            color: #4CAF50;
+        }
+
+        .nav-item.active {
+            background: #0a0a0a;
+            color: #4CAF50;
+            border-left: 3px solid #4CAF50;
+            font-weight: bold;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+
+        /* SAĞ İÇERİK ALANI */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: radial-gradient(circle at top right, #001a00, #000);
+        }
+
+        .top-bar {
+            height: 70px;
+            border-bottom: 1px solid #111;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .admin-profile i {
+            color: #4CAF50;
+        }
+
+        .page {
+            display: none;
+            padding: 40px 60px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ÇIKIŞ BUTONU */
+        .logout-btn {
+            margin-top: auto;
+            color: #ff0000;
+            border-top: 1px solid #111;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo">ORION <span style="color: #4CAF50;">ADMIN</span></div>
+
+        <div class="nav-item" onclick="showPage('admin-pending-releases', this)">
+            <i class="fas fa-compact-disc"></i> Yayın Onayları
+        </div>
+        <div class="nav-item" onclick="showPage('admin-oac-requests', this)">
+            <i class="fab fa-youtube"></i> OAC Başvuruları
+        </div>
+        <div class="nav-item" onclick="showPage('admin-users', this)">
+            <i class="fas fa-users"></i> Sanatçı Listesi
+        </div>
+        <div class="nav-item" onclick="showPage('admin-finance', this)">
+            <i class="fas fa-wallet"></i> Ödeme Talepleri
+        </div>
+        <div class="nav-item" onclick="showPage('admin-settings', this)">
+            <i class="fas fa-cog"></i> Sistem Ayarları
+        </div>
+
+        <div class="nav-item logout-btn" onclick="signOutUser()">
+            <i class="fas fa-sign-out-alt"></i> Güvenli Çıkış
+        </div>
+    </div>
+    <div id="releases" class="page" style="display: none; padding: 40px;">
+        <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">Yayın Onayları</h1>
+        <p style="color: #666; margin-bottom: 30px;">Sanatçılar tarafından gönderilen yeni yayınları buradan
+            inceleyebilirsiniz.</p>
+
+        <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr
+                        style="background: rgba(255,255,255,0.02); color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">
+                        <th style="padding: 20px;">Kapak</th>
+                        <th style="padding: 20px;">Şarkı & Sanatçı</th>
+                        <th style="padding: 20px;">Tür</th>
+                        <th style="padding: 20px;">Yayın Tarihi</th>
+                        <th style="padding: 20px;">Kullanıcı</th>
+                        <th style="padding: 20px; text-align: center;">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-release-list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="admin-profile">
+                <span>Hoş geldin, <strong>Arjin</strong></span>
+                <i class="fas fa-user-shield"></i>
+            </div>
+        </div>
+
+        <div id="admin-dashboard" class="page" style="display: block;">
+            <h1 style="font-size: 32px; margin-bottom: 10px;">Yönetim Paneli</h1>
+            <p style="color: #666;">Sistemdeki tüm hareketleri buradan izleyebilirsiniz.</p>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar"> </div>
+
+            <div id="admin-dashboard" class="page" style="display: block;"> ... </div>
+
+            <div id="admin-pending-releases" class="page">
+                <div style="padding: 30px 60px; border-bottom: 1px solid #111;"> ... </div>
+
+                <div style="padding: 40px 60px;">
+                    <table
+                        style="width: 100%; border-collapse: collapse; background: #080808; border-radius: 12px; overflow: hidden;">
+                        <thead>
+                            <tr
+                                style="text-align: left; background: #111; color: #4CAF50; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                                <th style="padding: 20px;">Kapak</th>
+                                <th style="padding: 20px;">Şarkı Bilgisi</th>
+                                <th style="padding: 20px;">Yayın Tarihi</th>
+                                <th style="padding: 20px;">Sanatçı</th>
+                                <th style="padding: 20px; text-align: center;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-release-list">
+                            <tr>
+                                <td colspan="5" style="padding: 40px; text-align: center; color: #555;">
+                                    Veriler yükleniyor...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="admin-pending-releases" class="page" style="display: none; padding: 40px;">
+        <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">Yayın Onayları</h1>
+        <p style="color: #888; margin-bottom: 30px;">Firebase üzerinden gelen yeni şarkı başvurularını yönetin.</p>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+
+            <div
+                style="background: rgba(255, 193, 7, 0.05); border: 1px solid rgba(255, 193, 7, 0.1); padding: 25px; border-radius: 20px; position: relative; overflow: hidden;">
+                <div
+                    style="color: #FFC107; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">
+                    İncelemede</div>
+                <div id="count-pending" style="font-size: 36px; font-weight: 800; margin-top: 10px; color: #fff;">0
+                </div>
+                <div
+                    style="position: absolute; right: -10px; bottom: -10px; font-size: 60px; opacity: 0.05; color: #FFC107;">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+
+            <div
+                style="background: rgba(76, 175, 80, 0.05); border: 1px solid rgba(76, 175, 80, 0.1); padding: 25px; border-radius: 20px; position: relative; overflow: hidden;">
+                <div
+                    style="color: #4CAF50; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">
+                    Onaylandı</div>
+                <div id="count-approved" style="font-size: 36px; font-weight: 800; margin-top: 10px; color: #fff;">0
+                </div>
+                <div
+                    style="position: absolute; right: -10px; bottom: -10px; font-size: 60px; opacity: 0.05; color: #4CAF50;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+
+            <div
+                style="background: rgba(244, 67, 54, 0.05); border: 1px solid rgba(244, 67, 54, 0.1); padding: 25px; border-radius: 20px; position: relative; overflow: hidden;">
+                <div
+                    style="color: #f44336; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">
+                    Reddedildi</div>
+                <div id="count-rejected" style="font-size: 36px; font-weight: 800; margin-top: 10px; color: #fff;">0
+                </div>
+                <div
+                    style="position: absolute; right: -10px; bottom: -10px; font-size: 60px; opacity: 0.05; color: #f44336;">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+            </div>
+
+            <div
+                style="background: rgba(33, 150, 243, 0.05); border: 1px solid rgba(33, 150, 243, 0.1); padding: 25px; border-radius: 20px; position: relative; overflow: hidden;">
+                <div
+                    style="color: #2196f3; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">
+                    Düzenleme</div>
+                <div id="count-action" style="font-size: 36px; font-weight: 800; margin-top: 10px; color: #fff;">0</div>
+                <div
+                    style="position: absolute; right: -10px; bottom: -10px; font-size: 60px; opacity: 0.05; color: #2196f3;">
+                    <i class="fas fa-edit"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr
+                        style="background: rgba(255,255,255,0.03); color: #4CAF50; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">
+                        <th style="padding: 20px;">Kapak</th>
+                        <th style="padding: 20px;">Şarkı & Sanatçı</th>
+                        <th style="padding: 20px;">Yayın Tarihi</th>
+                        <th style="padding: 20px;">Kullanıcı</th>
+                        <th style="padding: 20px; text-align: center;">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-release-list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="admin-pending-releases" class="page"
+        style="display: none; width: 100%; min-height: 100vh; background: #000;">
+        <div style="padding: 30px 60px; border-bottom: 1px solid #111;">
+            <h2 style="color: white; margin: 0; font-size: 26px;">Yayın Onay Merkezi</h2>
+            <p style="color: #666; margin-top: 5px; font-size: 14px;">Sanatçılardan gelen yeni yayınları inceleyip
+                onaylayabilirsiniz.</p>
+        </div>
+
+        <div style="padding: 40px 60px;">
+            <div
+                style="background: #0a0a0a; border-radius: 20px; border: 1px solid #1a1a1a; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr
+                            style="background: #111; color: #4CAF50; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;">
+                            <th style="padding: 20px;">Kapak</th>
+                            <th style="padding: 20px;">Yayın & Sanatçı</th>
+                            <th style="padding: 20px;">Kullanıcı Adı</th>
+                            <th style="padding: 20px; text-align: center;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-release-list" style="color: #ccc;">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "API_KEY",
+            authDomain: "orion-music-panel.firebaseapp.com",
+            projectId: "orion-music-panel",
+            storageBucket: "orion-music-panel.firebasestorage.app",
+            messagingSenderId: "357473854743",
+            appId: "1:357473854743:web:c96bda4713ef9796db4352"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const db = firebase.firestore();
+
+        function initAdminPanel() {
+            const tableBody = document.getElementById('admin-release-list');
+
+            db.collection("pendingReleases") // <-- BURAYI KONTROL ET
+                .onSnapshot((snapshot) => {
+
+                    if (!tableBody) return;
+
+                    tableBody.innerHTML = "";
+
+                    if (snapshot.empty) {
+                        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center; padding:20px; color:#555;">
+                    Bekleyen yayın yok
+                </td>
+            </tr>`;
+                        return;
+                    }
+
+                    snapshot.forEach((doc) => {
+                        const item = doc.data();
+                        console.log(item);
+
+                        if (item.status === "pending") {
+                            tableBody.innerHTML += `
+                <tr style="border-bottom: 1px solid #111;">
+                    <td style="padding:15px;">
+                        <img src="${item.coverImg || 'https://via.placeholder.com/50'}"
+                             style="width:50px; height:50px; border-radius:8px;">
+                    </td>
+
+                    <td style="padding:15px;">
+                        <div style="font-weight:800; color:#fff;">
+                            ${item.songName || 'İsimsiz'}
+                        </div>
+                        <div style="font-size:12px; color:#4CAF50;">
+                            ${item.artistName || 'Bilinmiyor'}
+                        </div>
+                        ${item.audioUrl ? `
+                        <div style="margin-top:8px;">
+                            <audio controls style="width:180px;">
+                                <source src="${item.audioUrl}" type="audio/mpeg">
+                            </audio>
+                        </div>
+                        ` : `<div style="color:red; font-size:11px;">Ses dosyası yok</div>`}
+                        
+                    </td>
+
+                    <td style="padding:15px; color:#aaa;">
+                        ${item.releaseDate || '-'}
+                    </td>
+
+                    <td style="padding:15px; color:#aaa;">
+                        ${item.userName || 'Sistem'}
+                    </td>
+
+                    <td style="padding:15px; text-align:center;">
+                        <button onclick="updateStatus('${doc.id}', 'approved')"
+                            style="background:#4CAF50; color:white; border:none; padding:6px 12px; border-radius:5px; cursor:pointer;">
+                            ONAYLA
+                        </button>
+
+                        <button onclick="updateStatus('${doc.id}', 'rejected')"
+                            style="background:#f44336; color:white; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; margin-left:5px;">
+                            RED
+                        </button>
+                    </td>
+                </tr>`;
+                        }
+                    });
+                }, (error) => {
+                    console.error("Firebase hata:", error.message);
+                });
+        }
+
+        window.updateStatus = async (id, status) => {
+            if (!confirm("Emin misin?")) return;
+
+            try {
+                await db.collection("pendingReleases").doc(id).update({
+                    status: status
+                });
+            } catch (e) {
+                alert("Hata: " + e.message);
+            }
+        };
+        window.showPage = (pageId, element) => {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+
+            const target = document.getElementById(pageId);
+            if (target) target.style.display = 'block';
+
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if (element) element.classList.add('active');
+        };
+
+        initAdminPanel();
+    </script>
+</body>
+
+</html> ```

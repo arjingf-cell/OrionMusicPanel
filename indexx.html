@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orion Music - Dağıtım Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="gradient-bg"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <div class="nav-left">
+                <button class="menu-btn" onclick="toggleDrawer()">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="orion-logo-new">ORION</div>
+            </div>
+
+            <div class="nav-links">
+                <a href="#home">Ana Sayfa</a>
+                <a href="#">Hakkımızda</a>
+                <a href="#">Hizmetler</a>
+                <a href="#pricing">Fiyatlandırma</a>
+                <a href="#">PR & Influencer</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="login.html" class="btn-login">Giriş Yap</a>
+                <a href="login.html" class="btn-signup">Üye Ol</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="side-drawer" class="drawer">
+        <div class="drawer-header">
+            <div class="orion-logo-new">ORION</div>
+            <button class="close-btn" onclick="toggleDrawer()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="drawer-content">
+            <a href="#home"><i data-lucide="home"></i> Ana Sayfa</a>
+            <a href="#"><i data-lucide="music"></i> Şarkı Yükle</a>
+            <a href="#"><i data-lucide="bar-chart-2"></i> İstatistik</a>
+            <a href="#"><i data-lucide="settings"></i> Ayar</a>
+            <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+            <a href="login.html" style="color: #ff4d4d;"><i data-lucide="log-out"></i> Çıkış Yap</a>
+        </div>
+    </div>
+
+    <section class="hero" id="home">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Yapay Zeka Destekli Dağıtım Başladı!
+            </div>
+            <h1 class="hero-title">Müziğinizi <br> <span class="gradient-text">Sınırsızca Yayınlayın</span></h1>
+            <p class="hero-description">Şarkılarınız Spotify, Apple Music ve 150+ platformda yerini alsın. %100 bağımsız
+                kalın, teliflerinizi her ay düzenli alın.</p>
+            <div class="hero-actions">
+                <a href="#pricing" class="btn-hero-primary">Paketleri İncele <i data-lucide="arrow-right"></i></a>
+                <a href="login.html" class="btn-hero-secondary">Hizmetlerimizi Gör</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">20K+</span>
+                    <span class="stat-label">Sanatçı</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">250M+</span>
+                    <span class="stat-label">Dinlenme</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Ülke</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Sanatçı Dostu Paketler</h2>
+                <p class="section-description">Gizli masraf yok. İhtiyacına en uygun olanı seç ve hemen yayına başla.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">SINGLE / ALBÜM</h3>
+                        <p class="pricing-desc">Tek bir proje için hızlı ve global profesyonel dağıtım.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">299₺</span>
+                        <span class="price-period">/ adet</span>
+                    </div>
+                    <a href="#" class="btn-pricing">Adım At</a>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> 1 adet single veya albüm</li>
+                        <li><i data-lucide="check"></i> 48 saatte yayında</li>
+                        <li><i data-lucide="check"></i> Gelirin %100'ü sana ait</li>
+                        <li><i data-lucide="check"></i> Spotify Editorial Pitching</li>
+                        <li><i data-lucide="check"></i> YouTube OAC başvurusu</li>
+                        <li><i data-lucide="check"></i> YouTube & Meta Content ID</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="popular-badge">En Popüler</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">SINIRSIZ DAĞITIM</h3>
+                        <p class="pricing-desc">Aktif üretim yapan sanatçılar için en ideal plan.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">999₺</span>
+                        <span class="price-period">/ yıllık</span>
+                    </div>
+                    <a href="#" class="btn-pricing btn-blue">Şimdi Başla</a>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> 12 ay sınırsız single & albüm</li>
+                        <li><i data-lucide="check"></i> 48 saatte yayında</li>
+                        <li><i data-lucide="check"></i> Gelirin %100'ü sana ait</li>
+                        <li><i data-lucide="check"></i> Spotify Editorial Pitching</li>
+                        <li><i data-lucide="check"></i> YouTube OAC başvurusu</li>
+                        <li><i data-lucide="check"></i> Content ID koruması</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">LABEL</h3>
+                        <p class="pricing-desc">Müzik şirketleri ve prodüksiyon ekipleri için.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">2999₺</span>
+                        <span class="price-period">/ yıllık</span>
+                    </div>
+                    <a href="#" class="btn-pricing">Label Ol</a>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Sınırsız sanatçı & yayın</li>
+                        <li><i data-lucide="check"></i> 48 saatte yayında</li>
+                        <li><i data-lucide="check"></i> Gelirin %100'ü size ait</li>
+                        <li><i data-lucide="check"></i> Her sanatçıya pitching</li>
+                        <li><i data-lucide="check"></i> Gelişmiş label paneli</li>
+                        <li><i data-lucide="check"></i> Gelir ayrıştırma sistemi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="platforms-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Müziğiniz Tüm Dünyada</h2>
+                <p class="section-description">Orion Music ile şarkılarınız 150'den fazla dijital platformda anında
+                    yerini alsın.</p>
+            </div>
+
+            <div class="logo-marquee">
+                <div class="logo-marquee-inner">
+                    <img src="logos/spotify.png" alt="Spotify">
+                    <img src="logos/apple.png" alt="Apple Music">
+                    <img src="logos/youtube.png" alt="YouTube Music">
+                    <img src="logos/tiktok.png" alt="TikTok">
+                    <img src="logos/deezer.png" alt="Deezer">
+                    <img src="logos/tidal.png" alt="Tidal">
+                    <img src="logos/amazon.png" alt="Amazon Music">
+
+                    <img src="logos/spotify.png" alt="Spotify">
+                    <img src="logos/apple.png" alt="Apple Music">
+                    <img src="logos/youtube.png" alt="YouTube Music">
+                    <img src="logos/tiktok.png" alt="TikTok">
+                    <img src="logos/deezer.png" alt="Deezer">
+                    <img src="logos/tidal.png" alt="Tidal">
+                    <img src="logos/amazon.png" alt="Amazon Music">
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Müziğiniz İçin Hazır mısınız?</h2>
+                <a href="login.html" class="btn-cta">Hesap Oluşturun</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="orion-logo-new">ORION</div>
+                    <p class="footer-text">Orion Music, bağımsız sanatçının haklarını korurken eserlerini Apple Music,
+                        Spotify, YouTube ve onlarca platforma taşıyan yeni nesil dağıtım şirketidir.</p>
+                    <div class="social-links">
+                        <i data-lucide="instagram"></i>
+                        <i data-lucide="twitter"></i>
+                        <i data-lucide="facebook"></i>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Hızlı Linkler</h4>
+                    <a href="#">Hakkımızda</a>
+                    <a href="#">Hizmetler</a>
+                    <a href="#pricing">Fiyatlandırma</a>
+                    <a href="#">Platformlar</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Destek</h4>
+                    <a href="#">Yardım Merkezi</a>
+                    <a href="#">SSS</a>
+                    <a href="#">İletişim</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Yasal</h4>
+                    <a href="#">Gizlilik Politikası</a>
+                    <a href="#">Kullanım Şartları</a>
+                    <a href="#">Çerez Politikası</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Orion Müzik. Tüm hakları saklıdır.</p>
+                <div class="footer-meta">
+                    <span>Türkçe</span>
+                    <span>İstanbul, TR</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Kopyaladığın config bilgileri
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuo9yrHDUZ5U3wYCydk8n_iR8HGtsY3o0",
+            authDomain: "orion-music-panel.firebaseapp.com",
+            projectId: "orion-music-panel",
+            storageBucket: "orion-music-panel.firebasestorage.app",
+            messagingSenderId: "357473854743",
+            appId: "1:357473854743:web:c96bda4713ef9796db4352",
+            measurementId: "G-3BWHWYY9VE"
+        };
+
+        // Firebase'i başlatıyoruz
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // YAYIN GÖNDERME FONKSİYONU
+        function submitRelease() {
+            // Buradaki ID'lerin (song-name vb.) senin formunla aynı olduğundan emin ol
+            const songName = document.getElementById('song-name').value;
+            const artistName = document.getElementById('artist-name').value;
+
+            if (!songName || !artistName) return alert("Lütfen alanları doldurun!");
+
+            db.collection("pendingReleases").add({
+                songName: songName,
+                artistName: artistName,
+                userName: "Arjin",
+                status: "pending",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+                .then(() => {
+                    alert("Başarılı! Veri Firebase'e uçtu.");
+                    // Formu temizleyelim
+                    document.getElementById('song-name').value = "";
+                })
+                .catch((error) => alert("Hata: " + error.message));
+        }
+    </script>
+</body>
+
+</html>

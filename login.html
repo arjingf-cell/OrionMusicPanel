@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orion Music - Sanatçı Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- Temel Tasarım --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            height: 100vh; 
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        /* --- ARKA PLAN SİHİRLERİ --- */
+        
+        /* 1. Katman: Hareketli Gradyan */
+        .gradient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
+            /* Mistik renkler: Siyah, Koyu Lacivert, Çok Koyu Yeşil */
+            background: linear-gradient(135deg, #000000, #0a192f, #001a0d, #000000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. Katman: Takımyıldızı ve Parıldama */
+        .orion-constellation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Hafif bir merkez parlaması */
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.3) 0%, rgba(0,0,0,0) 100%);
+        }
+        .star {
+            position: absolute; background: #fff; border-radius: 50%;
+            /* Parıldama efekti */
+            box-shadow: 0 0 10px #fff; animation: twinkle 3s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 20px #1db954; }
+        }
+        /* Yıldız Konumları - Ekranın her yerine rastgele dağıldı */
+        .star-1 { top: 15%; left: 10%; width: 2px; height: 2px; }
+        .star-2 { top: 10%; left: 85%; width: 3px; height: 3px; animation-delay: 1s; }
+        .star-3 { top: 80%; left: 15%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star-4 { top: 85%; left: 80%; width: 3px; height: 3px; animation-delay: 1.5s; }
+        .star-5 { top: 45%; left: 20%; width: 4px; height: 4px; animation-delay: 2s; }
+        .star-6 { top: 50%; left: 22%; width: 4px; height: 4px; animation-delay: 2.2s; }
+        .star-7 { top: 55%; left: 24%; width: 4px; height: 4px; animation-delay: 2.4s; }
+        
+        .star-8 { top: 30%; left: 40%; width: 2px; height: 2px; }
+        .star-9 { top: 20%; left: 60%; width: 3px; height: 3px; animation-delay: 1s; }
+        .star-10 { top: 70%; left: 30%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star-11 { top: 75%; left: 70%; width: 3px; height: 3px; animation-delay: 1.5s; }
+        .star-12 { top: 35%; left: 50%; width: 4px; height: 4px; animation-delay: 2s; }
+        .star-13 { top: 40%; left: 62%; width: 4px; height: 4px; animation-delay: 2.2s; }
+        .star-14 { top: 60%; left: 54%; width: 4px; height: 4px; animation-delay: 2.4s; }
+        
+        .star-15 { top: 10%; left: 30%; width: 2px; height: 2px; }
+        .star-16 { top: 5%; left: 70%; width: 3px; height: 3px; animation-delay: 1s; }
+        .star-17 { top: 90%; left: 20%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star-18 { top: 95%; left: 80%; width: 3px; height: 3px; animation-delay: 1.5s; }
+        .star-19 { top: 15%; left: 50%; width: 4px; height: 4px; animation-delay: 2s; }
+        .star-20 { top: 20%; left: 62%; width: 4px; height: 4px; animation-delay: 2.2s; }
+        .star-21 { top: 80%; left: 54%; width: 4px; height: 4px; animation-delay: 2.4s; }
+        
+        .star-22 { top: 5%; left: 5%; width: 2px; height: 2px; }
+        .star-23 { top: 15%; left: 95%; width: 3px; height: 3px; animation-delay: 1s; }
+        .star-24 { top: 95%; left: 5%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star-25 { top: 85%; left: 95%; width: 3px; height: 3px; animation-delay: 1.5s; }
+        .star-26 { top: 5%; left: 50%; width: 4px; height: 4px; animation-delay: 2s; }
+        .star-27 { top: 10%; left: 62%; width: 4px; height: 4px; animation-delay: 2.2s; }
+        .star-28 { top: 90%; left: 54%; width: 4px; height: 4px; animation-delay: 2.4s; }
+        
+        .star-29 { top: 25%; left: 15%; width: 2px; height: 2px; }
+        .star-30 { top: 30%; left: 85%; width: 3px; height: 3px; animation-delay: 1s; }
+        .star-31 { top: 60%; left: 15%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star-32 { top: 65%; left: 85%; width: 3px; height: 3px; animation-delay: 1.5s; }
+        .star-33 { top: 35%; left: 20%; width: 4px; height: 4px; animation-delay: 2s; }
+        .star-34 { top: 40%; left: 22%; width: 4px; height: 4px; animation-delay: 2.2s; }
+        .star-35 { top: 55%; left: 24%; width: 4px; height: 4px; animation-delay: 2.4s; }
+
+        /* --- Auth Kutusu --- */
+        .auth-box { 
+            background: rgba(18, 18, 18, 0.7); 
+            padding: 40px; 
+            border-radius: 24px; 
+            border: 1px solid #282828; 
+            width: 400px; 
+            text-align: center;
+            backdrop-filter: blur(15px); /* Daha güçlü cam efekti */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            z-index: 10;
+        }
+        .orion-logo-style {
+            font-size: 24px; font-weight: 800; letter-spacing: 0.2em;
+            color: #fff; text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+            margin-bottom: 25px;
+        }
+        input { 
+            width: 100%; padding: 14px; margin: 10px 0; 
+            background: rgba(26, 26, 26, 0.8); border: 1px solid #333; 
+            color: white; border-radius: 12px; outline: none; 
+            transition: 0.3s;
+        }
+        input:focus { border-color: #1db954; box-shadow: 0 0 10px rgba(29, 185, 84, 0.2); }
+        button { 
+            width: 100%; padding: 14px; margin-top: 20px; 
+            background: #1db954; color: black; border: none; 
+            border-radius: 12px; font-weight: 800; cursor: pointer; 
+            transition: 0.3s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(29, 185, 84, 0.4); }
+        
+        /* --- Panel --- */
+        #main-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; z-index: 100; }
+        .sidebar { width: 260px; background: #121212; border-right: 1px solid #222; padding: 30px; display: flex; flex-direction: column; }
+    </style>
+</head>
+<body>
+
+    <div class="gradient-bg"></div> <div class="orion-constellation"> <div class="star star-1"></div>
+        <div class="star star-2"></div>
+        <div class="star star-3"></div>
+        <div class="star star-4"></div>
+        <div class="star star-5"></div>
+        <div class="star star-6"></div>
+        <div class="star star-7"></div>
+        <div class="star star-8"></div>
+        <div class="star star-9"></div>
+        <div class="star star-10"></div>
+        <div class="star star-11"></div>
+        <div class="star star-12"></div>
+        <div class="star star-13"></div>
+        <div class="star star-14"></div>
+        <div class="star star-15"></div>
+        <div class="star star-16"></div>
+        <div class="star star-17"></div>
+        <div class="star star-18"></div>
+        <div class="star star-19"></div>
+        <div class="star star-20"></div>
+        <div class="star star-21"></div>
+        <div class="star star-22"></div>
+        <div class="star star-23"></div>
+        <div class="star star-24"></div>
+        <div class="star star-25"></div>
+        <div class="star star-26"></div>
+        <div class="star star-27"></div>
+        <div class="star star-28"></div>
+        <div class="star star-29"></div>
+        <div class="star star-30"></div>
+        <div class="star star-31"></div>
+        <div class="star star-32"></div>
+        <div class="star star-33"></div>
+        <div class="star star-34"></div>
+        <div class="star star-35"></div>
+    </div>
+
+    <div id="auth-screen" class="auth-box">
+        <div class="orion-logo-style">ORION</div>
+        <h2 id="auth-title" style="margin-bottom: 20px; font-size: 18px; color: #a7a7a7;">Sanatçı Girişi</h2>
+        <input type="email" id="email" placeholder="E-posta">
+        <input type="password" id="password" placeholder="Şifre">
+        <button id="btn-action" onclick="handleAuth()">Giriş Yap</button>
+        <p style="margin-top: 25px; font-size: 14px; color: #888;">
+            <span id="toggle-text">Hesabın yok mu?</span> 
+            <a href="#" onclick="toggleMode()" style="color: #1db954; text-decoration: none; font-weight: bold;">Tıkla</a>
+        </p>
+    </div>
+
+    <div id="main-panel">
+        <div class="sidebar">
+            <div class="orion-logo-style" style="font-size: 18px;">ORION</div>
+            <p id="user-display" style="margin: 20px 0; font-size: 13px; color: #1db954; word-break: break-all;"></p>
+            <button onclick="signOutUser()" style="background: #ff4444; color: white; margin-top: auto;">Çıkış Yap</button>
+        </div>
+        <div style="padding: 60px; flex: 1; position: relative; z-index: 10;">
+            <div class="gradient-bg"></div>
+            <h1 style="font-size: 32px; margin-bottom: 15px;">Hoş Geldin!</h1>
+            <p style="color: #a7a7a7;">Müzik dünyasına açılan kapın Orion Music Paneli'ne başarıyla bağlandın.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Senin Firebase Bilgilerin
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuo9yrHDUZ5U3wYCydk8n_iR8HGtsY3o0",
+            authDomain: "orion-music-panel.firebaseapp.com",
+            projectId: "orion-music-panel",
+            storageBucket: "orion-music-panel.firebasestorage.app",
+            messagingSenderId: "357473854743",
+            appId: "1:357473854743:web:c96bda4713ef9796db4352",
+            measurementId: "G-3BWHWYY9VE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        let isLoginMode = true;
+
+        window.toggleMode = () => {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').innerText = isLoginMode ? "Sanatçı Girişi" : "Sanatçı Kaydı";
+            document.getElementById('btn-action').innerText = isLoginMode ? "Giriş Yap" : "Kayıt Ol ve Onayla";
+            document.getElementById('toggle-text').innerText = isLoginMode ? "Hesabın yok mu?" : "Zaten üye misin?";
+        };
+
+        window.handleAuth = async () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            if(!email || !pass) return alert("Lütfen tüm alanları doldur!");
+
+            try {
+                if (isLoginMode) {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+                    if(!userCredential.user.emailVerified) {
+                        alert("Lütfen önce mail adresini onayla!");
+                        await signOut(auth);
+                    }
+                } else {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                    await sendEmailVerification(userCredential.user);
+                    alert("Onay maili gönderildi! Lütfen kontrol et.");
+                    toggleMode();
+                }
+            } catch (error) { alert("Hata: " + error.message); }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.emailVerified) {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-panel').style.display = 'flex';
+                document.getElementById('user-display').innerText = user.email;
+            } else {
+                document.getElementById('auth-screen').style.display = 'block';
+                document.getElementById('main-panel').style.display = 'none';
+            }
+        });
+
+        window.signOutUser = () => signOut(auth);
+    </script>
+</body>
+</html>
