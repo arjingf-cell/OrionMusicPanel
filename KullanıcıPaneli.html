@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orion Music - Sanatçı Paneli</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
         rel="stylesheet">
     <style>
@@ -614,6 +617,324 @@
             background: #222;
             border-radius: 4px;
         }
+
+        /* ---- EDITORIAL PITCHING ---- */
+        .ep-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 1.5rem;
+        }
+
+        .ep-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ep-card {
+            border-radius: 14px;
+            padding: 1.25rem;
+            border: 1px solid #222;
+            background: #111;
+        }
+
+        .ep-card.warn,
+        .ep-card.tip {
+            border-left: 3px solid #4ade80;
+            background: #0d160f;
+        }
+
+        .ep-card.rules {
+            border-left: 3px solid #2a2a2a;
+        }
+
+        .ep-card-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            background: #1a2e1d;
+        }
+
+        .ep-card.rules .ep-card-icon {
+            background: #1a1a1a;
+        }
+
+        .ep-card h3 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #4ade80;
+            margin-bottom: 0.6rem;
+        }
+
+        .ep-card.rules h3 {
+            color: #666;
+        }
+
+        .ep-card p,
+        .ep-card li {
+            font-size: 12.5px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 0.3rem;
+        }
+
+        .ep-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ep-card li {
+            padding-left: 0.8rem;
+            position: relative;
+        }
+
+        .ep-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-size: 11px;
+        }
+
+        .ep-card li b {
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        .ep-main {
+            background: #111;
+            border-radius: 16px;
+            border: 1px solid #222;
+            padding: 2rem;
+        }
+
+        .ep-main-header {
+            margin-bottom: 1.75rem;
+        }
+
+        .ep-eyebrow {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #4ade80;
+            margin-bottom: 0.4rem;
+        }
+
+        .ep-main-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #f5f5f5;
+            margin-bottom: 0.4rem;
+            line-height: 1.2;
+        }
+
+        .ep-main-header p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .ep-divider {
+            height: 1px;
+            background: linear-gradient(90deg, #4ade80 0%, #1a2e1d 60%, transparent 100%);
+            margin-bottom: 1.75rem;
+        }
+
+        .ep-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.875rem;
+        }
+
+        .ep-group {
+            margin-bottom: 0.875rem;
+        }
+
+        .ep-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 0.4rem;
+            margin-top: 0;
+        }
+
+        .ep-group input,
+        .ep-group textarea {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #252525;
+            border-radius: 8px;
+            padding: 0.65rem 0.875rem;
+            color: #ddd;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13.5px;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: none;
+            margin: 0;
+        }
+
+        .ep-group input:focus,
+        .ep-group textarea:focus {
+            border-color: #4ade80;
+            background: #0d160f;
+        }
+
+        .ep-group input::placeholder,
+        .ep-group textarea::placeholder {
+            color: #333;
+        }
+
+        .ep-url-wrap {
+            position: relative;
+        }
+
+        .ep-url-prefix {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #4ade80;
+            pointer-events: none;
+        }
+
+        .ep-url-input {
+            padding-left: 2.75rem !important;
+        }
+
+        .ep-genre-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.4rem;
+        }
+
+        .ep-tag {
+            font-size: 11.5px;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #2a2a2a;
+            background: transparent;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .ep-tag:hover {
+            border-color: #4ade80;
+            color: #4ade80;
+            background: #0d160f;
+        }
+
+        .ep-tag.active {
+            border-color: #4ade80;
+            background: #1a2e1d;
+            color: #4ade80;
+        }
+
+        .ep-char-count {
+            font-size: 11px;
+            color: #444;
+            text-align: right;
+            margin-top: 0.3rem;
+        }
+
+        .ep-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .ep-footer-note {
+            font-size: 11px;
+            color: #3a3a3a;
+            line-height: 1.5;
+        }
+
+        .ep-footer-note span {
+            display: block;
+            color: #4ade80;
+            font-size: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .ep-submit {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4ade80;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            width: auto;
+            margin: 0;
+        }
+
+        .ep-submit:hover {
+            background: #86efac;
+            transform: translateY(-1px);
+        }
+
+        .ep-submit svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .ep-success {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .ep-success-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #1a2e1d;
+            border: 2px solid #4ade80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .ep-success h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #f5f5f5;
+            margin-bottom: 0.5rem;
+        }
+
+        .ep-success p {
+            font-size: 13px;
+            color: #555;
+            max-width: 280px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 
@@ -631,7 +952,6 @@
         </div>
     </div>
 
-    <!-- AUTH EKRANI -->
     <div id="auth-screen">
         <div class="auth-box">
             <div class="orion-logo-style">ORION</div>
@@ -639,6 +959,11 @@
             <input type="email" id="email" placeholder="E-posta adresiniz">
             <input type="password" id="password" placeholder="Şifreniz">
             <button class="btn-primary" onclick="handleAuth()">Giriş Yap / Kayıt Ol</button>
+
+            <button onclick="skipLogin()"
+                style="background: transparent; border: 1px solid #333; color: #888; margin-top: 10px; width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                Girişi Atla (Test Modu)
+            </button>
         </div>
     </div>
 
@@ -648,25 +973,57 @@
 
             <!-- SIDEBAR -->
             <div class="sidebar">
-                <div class="sidebar-logo">ORION</div>
+                <div class="sidebar-logo" style="padding: 10px; text-align: left;">
+                    <img src="OrionLogooo.png" alt="Orion Logo"
+                        style="width: 80%; max-width: 300x; height: auto; display: block; margin-left: 0;">
+                </div>
+
                 <ul class="nav-menu">
                     <li class="nav-item active" onclick="showPage('dashboard', this)">
-                        <span class="nav-icon">📊</span> Dashboard
+                        <span class="nav-icon">
+                            <img src="dashboard.png" alt="Dashboard"
+                                style="width: 20px; height: auto; vertical-align: middle; margin-right: 8px;">
+                        </span>
+                        Dashboard
                     </li>
                     <li class="nav-item" onclick="showPage('songs', this)">
-                        <span class="nav-icon">🎵</span> Şarkılarım
+                        <span class="nav-icon">
+                            <img src="playlist.png" alt="Şarkılarım"
+                                style="width: 20px; height: auto; vertical-align: middle; margin-right: 8px;">
+                        </span>
+                        Şarkılarım
                     </li>
                     <li class="nav-item" onclick="showPage('new-release', this)">
-                        <span class="nav-icon">🚀</span> Yeni Yayın Oluştur
+                        <span class="nav-icon">
+                            <img src="music.png" alt="Yeni Yayın"
+                                style="width: 20px; height: auto; vertical-align: middle; margin-right: 8px;">
+                        </span>
+                        Yeni Yayın Oluştur
                     </li>
                     <li class="nav-item" onclick="showPage('revenue', this)">
-                        <span class="nav-icon">💰</span> Gelir Tablosu
+                        <span class="nav-icon">
+                            <img src="gelir.png" alt="Gelir"
+                                style="width: 20px; height: auto; vertical-align: middle; margin-right: 8px;">
+                        </span>
+                        Gelir Tablosu
                     </li>
                     <li class="nav-item" onclick="showPage('settings', this)">
-                        <span class="nav-icon">⚙️</span> Ayarlar
+                        <span class="nav-icon">
+                            <img src="settingsgreen.png" alt="Ayarlar"
+                                style="width: 20px; height: auto; vertical-align: middle; margin-right: 8px;">
+                        </span>
+                        Ayarlar
+                    </li>
                     </li>
                     <li class="nav-item" onclick="showPage('youtube-oac', this)">
-                        <span class="nav-icon">▶️</span> YouTube OAC
+                        <span class="nav-icon">
+                            <img src="youtube.png" alt="YouTube"
+                                style="width: 20px; height: auto; vertical-align: middle;">
+                        </span>
+                        YouTube OAC
+                    </li>
+                    <li class="nav-item" onclick="showPage('Editoral_Pitching', this)">
+                        <span class="nav-icon">▶️</span> Editorial Pitching Talebi
                     </li>
                 </ul>
                 <button class="logout-btn" onclick="signOutUser()">🔒 Güvenli Çıkış</button>
@@ -716,54 +1073,71 @@
                 </div>
 
                 <!-- YENİ YAYIN -->
-                <div id="new-release" class="page">
-                    <div class="glass-header">
-                        <h1>Yeni Yayın Oluştur</h1>
-                        <p>Eserini tüm dünyaya duyurmaya hazır mısın?</p>
-                    </div>
-                    <div class="form-container">
-                        <div style="flex:1; min-width:180px;">
-                            <label>Albüm Kapağı</label>
-                            <div id="cover-preview" onclick="document.getElementById('cover-input').click()">
-                                🖼️ Kapak Seç
-                            </div>
-                            <input type="file" id="cover-input" hidden accept="image/*" onchange="previewImage(this)">
-                            <label>Ses Dosyası (WAV/MP3)</label>
-                            <input type="file" id="audio-file" accept="audio/*" style="margin-top:6px;">
+                <div class="content-area">
+
+                    <div id="new-release" class="page">
+                        <div class="glass-header">
+                            <h1>Yeni Yayın Oluştur</h1>
+                            <p>Eserini tüm dünyaya duyurmaya hazır mısın?</p>
                         </div>
-                        <div
-                            style="flex:2; display:grid; grid-template-columns:1fr 1fr; gap:12px; align-content:start;">
-                            <div><label>Albüm İsmi</label><input type="text" id="release-title" placeholder="İsim">
+                        <div class="form-container" style="display: flex; gap: 20px; flex-wrap: wrap; padding: 20px;">
+                            <div style="flex:1; min-width:180px;">
+                                <label>Albüm Kapağı</label>
+                                <div id="cover-preview" onclick="document.getElementById('cover-input').click()"
+                                    style="width:100%; aspect-ratio:1/1; border:2px dashed #333; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:12px;">
+                                    🖼️ Kapak Seç
+                                </div>
+                                <input type="file" id="cover-input" hidden accept="image/*"
+                                    onchange="previewImage(this)">
+                                <label style="display:block; margin-top:15px;">Ses Dosyası (WAV/MP3)</label>
+                                <input type="file" id="audio-file" accept="audio/*" style="margin-top:6px; width:100%;">
                             </div>
-                            <div><label>Şirket İsmi</label><input type="text" placeholder="Label"></div>
-                            <div>
-                                <label>Tür</label>
-                                <select id="release-genre">
-                                    <option>Rap / Hip-Hop</option>
-                                    <option>Pop</option>
-                                    <option>Halk Müziği</option>
-                                    <option>Rock</option>
-                                    <option>Elektronik</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>Yayın Tarihi</label>
-                                <input type="date" id="release-date-input" onclick="handleDateClick(event)">
-                            </div>
-                            <div><label>Sahne Adı</label><input type="text" id="release-artist" placeholder="Sahne Adı">
-                            </div>
-                            <div><label>Gerçek İsim</label><input type="text" placeholder="Ad Soyad"></div>
-                            <div style="grid-column:span 2;">
-                                <label>C/P Line</label>
-                                <input type="text" placeholder="© 2026 Orion Music">
-                            </div>
-                            <div style="grid-column:span 2;">
-                                <button class="btn-primary" onclick="submitRelease()">Yayını Onaya Gönder</button>
+
+                            <div
+                                style="flex:2; display:grid; grid-template-columns:1fr 1fr; gap:12px; align-content:start;">
+                                <div><label>Albüm İsmi</label><input type="text" id="release-title" placeholder="İsim"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div><label>Şirket İsmi</label><input type="text" placeholder="Label"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div>
+                                    <label>Tür</label>
+                                    <select id="release-genre"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                        <option>Rap / Hip-Hop</option>
+                                        <option>Pop</option>
+                                        <option>Halk Müziği</option>
+                                        <option>Rock</option>
+                                        <option>Elektronik</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Yayın Tarihi</label>
+                                    <input type="date" id="release-date-input"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div><label>Sahne Adı</label><input type="text" id="release-artist"
+                                        placeholder="Sahne Adı"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div><label>Gerçek İsim</label><input type="text" placeholder="Ad Soyad"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div style="grid-column:span 2;">
+                                    <label>C/P Line</label>
+                                    <input type="text" placeholder="© 2026 Orion Music"
+                                        style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; border:1px solid #333; color:#fff;">
+                                </div>
+                                <div style="grid-column:span 2; margin-top:10px;">
+                                    <button class="btn-primary" onclick="submitRelease()"
+                                        style="width:100%; padding:12px; background:#1db954; color:#000; font-weight:bold; border:none; border-radius:8px; cursor:pointer;">Yayını
+                                        Onaya Gönder</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- GELİR TABLOSU -->
                 <div id="revenue" class="page">
                     <div class="glass-header">
@@ -886,6 +1260,132 @@
                         </div>
                     </div>
                 </div>
+                <div id="Editoral_Pitching" class="page">
+                    <div class="ep-layout">
+
+                        <div class="ep-sidebar">
+                            <div class="ep-card warn">
+                                <div class="ep-card-icon">
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="#4ade80" stroke-width="2" stroke-linecap="round"
+                                            d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                    </svg>
+                                </div>
+                                <h3>Önemli Bilgi</h3>
+                                <p>Başvurular listeye girişi <b style="color:#ccc">garanti etmez</b>. Seçim tamamen
+                                    platform
+                                    editörlerinin inisiyatifindedir.</p>
+                            </div>
+
+                            <div class="ep-card tip">
+                                <div class="ep-card-icon">
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke="#4ade80" stroke-width="2" />
+                                        <path stroke="#4ade80" stroke-width="2" stroke-linecap="round"
+                                            d="M12 16v-4M12 8h.01" />
+                                    </svg>
+                                </div>
+                                <h3>Editör Stratejileri</h3>
+                                <ul>
+                                    <li><b>Derin Hikaye:</b> Duygusal hikayeye odaklan.</li>
+                                    <li><b>Erken Başvur:</b> En az 21 gün öncesinden.</li>
+                                    <li><b>Vibe Belirt:</b> Şarkının modunu net ifade et.</li>
+                                </ul>
+                            </div>
+
+                            <div class="ep-card rules">
+                                <div class="ep-card-icon">
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="#666" stroke-width="2" stroke-linecap="round"
+                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                </div>
+                                <h3>Başvuru Kuralları</h3>
+                                <p>Yalnızca yeni veya yayına girecek eserler kabul edilir.</p>
+                                <p>Doğrulanmış sanatçı linkleri zorunludur.</p>
+                                <p>Profesyonel dil kullanımı şarttır.</p>
+                            </div>
+                        </div>
+
+                        <div class="ep-main">
+                            <div id="ep-form-view">
+                                <div class="ep-main-header">
+                                    <div class="ep-eyebrow">Editorial Pitching</div>
+                                    <h2>Müziğini editörlere ulaştır</h2>
+                                    <p>Doğru bilgilerle doldur, fırsatını artır.</p>
+                                </div>
+                                <div class="ep-divider"></div>
+
+                                <div class="ep-row">
+                                    <div class="ep-group">
+                                        <label>Yasal İsim</label>
+                                        <input type="text" placeholder="Ad Soyad" id="f-legal">
+                                    </div>
+                                    <div class="ep-group">
+                                        <label>Sahne Adı</label>
+                                        <input type="text" placeholder="Stage Name" id="f-stage">
+                                    </div>
+                                </div>
+
+                                <div class="ep-group">
+                                    <label>Spotify Sanatçı Linki</label>
+                                    <div class="ep-url-wrap">
+                                        <img src="spotify.png"
+                                            style="position:absolute; left:0.875rem; top:50%; transform:translateY(-50%); width:18px; height:18px; object-fit:contain; z-index:1;">
+                                        <input type="text" class="ep-url-input" placeholder="artist/..." id="f-spotify">
+                                    </div>
+                                </div>
+
+                                <div class="ep-group">
+                                    <label>Şarkı Türü / Vibe</label>
+                                    <div class="ep-genre-grid">
+                                        <button class="ep-tag" onclick="toggleTag(this)">Dark Pop</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">R&B</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Hip-Hop</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Indie</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Electronic</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Lo-fi</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Trap</button>
+                                        <button class="ep-tag" onclick="toggleTag(this)">Alt Rock</button>
+                                    </div>
+                                </div>
+
+                                <div class="ep-group">
+                                    <label>Pitch Notu</label>
+                                    <textarea rows="5" placeholder="Bu şarkı neden dinlenmeli? Hikayeni anlat..."
+                                        id="f-pitch" oninput="updateCount()"></textarea>
+                                    <div class="ep-char-count"><span id="char-count">0</span> / 500</div>
+                                </div>
+
+                                <div class="ep-footer">
+                                    <div class="ep-footer-note">
+                                        <span>Güvenli Başvuru</span>
+                                        Bilgilerin yalnızca editörlerle paylaşılır.
+                                    </div>
+                                    <button class="ep-submit" onclick="submitForm()">
+                                        Editörlere Gönder
+                                        <svg fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                                stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="ep-success" id="ep-success-view">
+                                <div class="ep-success-icon">
+                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"
+                                            stroke-linejoin="round" d="M20 6L9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <h3>Başvurun Alındı!</h3>
+                                <p>Pitch notun editörlere iletildi. Sonuç genellikle 7–14 iş günü içinde bildirilir.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div><!-- /content-area -->
         </div><!-- /panel-layout -->
@@ -921,66 +1421,41 @@
         });
 
         // ---- Şarkıyı Yükle (Veri Çekme) ----
-        async function loadUserSongs(uid) {
+        async function loadUserSongs(userId) {
             const grid = document.getElementById('songs-grid');
-            const noMsg = document.getElementById('no-songs-msg');
-            const activeCountEl = document.getElementById('active-songs-count');
-            const pendingCountEl = document.getElementById('pending-songs-count');
+            const noSongsMsg = document.getElementById('no-songs-msg');
 
-            try {
-                // Supabase üzerinden veriyi çekiyoruz
-                const { data: songs, error } = await _supabase
-                    .from('pending_releases')
-                    .select('*')
-                    .eq('uid', uid)
-                    .order('created_at', { ascending: false }); // En yeni en üstte
+            // Supabase'den bu kullanıcıya ait şarkıları çek
+            const { data: songs, error } = await _supabase
+                .from('pending_releases')
+                .select('*')
+                .eq('uid', userId)
+                .order('created_at', { ascending: false });
 
-                if (error) throw error;
+            if (error) {
+                console.error("Şarkılar çekilemedi:", error.message);
+                return;
+            }
 
-                // Eğer hiç şarkı yoksa ekranı temizle ve mesajı göster
-                if (!songs || songs.length === 0) {
-                    grid.innerHTML = '';
-                    if (noMsg) noMsg.style.display = 'block';
-                    activeCountEl.textContent = '0';
-                    pendingCountEl.textContent = '0';
-                    return;
-                }
-
-                // Şarkı varsa mesajı gizle ve listeyi oluştur
-                if (noMsg) noMsg.style.display = 'none';
-                grid.innerHTML = '';
-
-                let approvedCount = 0;
-                let pendingCount = 0;
-
-                // DocumentFragment kullanarak DOM performansını artırıyoruz
-                const fragment = document.createDocumentFragment();
+            if (songs && songs.length > 0) {
+                if (noSongsMsg) noSongsMsg.style.display = 'none';
+                grid.innerHTML = ''; // Mevcut listeyi temizle
 
                 songs.forEach(song => {
-                    const isApproved = song.status === 'approved';
-                    isApproved ? approvedCount++ : pendingCount++;
-
-                    const card = document.createElement('div');
-                    card.className = 'song-card';
-                    card.innerHTML = `
-                        <div class="song-img-container" style="background-image: url('${song.cover_url}'); background-size: cover;"></div>
-                        <div class="song-info">
-                            <h4>${song.song_name || 'İsimsiz'}</h4>
-                            <p>${song.artist_name || 'Bilinmeyen Sanatçı'} · ${song.release_date || 'Tarih Belirtilmedi'}</p>
-                        </div>
-                        <span class="song-status ${isApproved ? 'status-approved' : 'status-pending'}">
-                            ${isApproved ? '✔ Onaylandı' : '⏳ İnceleniyor'}
-                        </span>
-                    `;
-                    fragment.appendChild(card);
+                    const card = `
+                <div class="song-card" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; border: 1px solid #222;">
+                    <img src="${song.cover_url}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 16px; color: #fff;">${song.song_name}</h3>
+                        <p style="font-size: 13px; color: #888;">${song.artist_name} • ${song.release_date}</p>
+                    </div>
+                    <div class="status-badge" style="background: #333; padding: 5px 10px; border-radius: 20px; font-size: 11px; color: #1db954;">
+                        ${song.status === 'pending' ? '⏳ İncelemede' : '✅ Yayında'}
+                    </div>
+                </div>
+            `;
+                    grid.innerHTML += card;
                 });
-
-                grid.appendChild(fragment);
-                activeCountEl.textContent = approvedCount;
-                pendingCountEl.textContent = pendingCount;
-
-            } catch (err) {
-                console.error("Veri yüklenirken hata oluştu:", err.message);
             }
         }
 
@@ -1019,8 +1494,19 @@
                 return alert("Lütfen tüm zorunlu alanları (İsim, Tarih, Kapak, Ses) doldurun!");
             }
 
-            const { data: { user } } = await _supabase.auth.getUser();
-            if (!user) return alert("Giriş yapmalısınız!");
+            // --- TEST MODU BAŞLANGICI ---
+            // Giriş kontrolünü geçici olarak devre dışı bırakıyoruz
+            let user = { id: 'test-user-arji' }; // Test için sabit bir ID tanımlıyoruz
+
+            try {
+                const { data } = await _supabase.auth.getUser();
+                if (data && data.user) {
+                    user = data.user; // Eğer kullanıcı giriş yapmışsa gerçeğini kullan
+                }
+            } catch (e) {
+                console.log("Test modunda devam ediliyor...");
+            }
+            // --- TEST MODU BİTİŞİ ---
 
             const btn = document.querySelector('button[onclick="submitRelease()"]');
 
@@ -1028,7 +1514,6 @@
                 btn.textContent = "Yükleniyor...";
                 btn.disabled = true;
 
-                // Dosya isimlerini temizleyelim (boşlukları alt tire yapıyoruz)
                 const cleanFileName = (name) => name.replace(/\s+/g, '_').toLowerCase();
 
                 // 1. Kapak Yükle
@@ -1074,7 +1559,10 @@
                 document.getElementById('cover-preview').style.backgroundImage = 'none';
                 document.getElementById('cover-preview').textContent = 'Kapak Seç';
 
-                loadUserSongs(user.id);
+                // Şarkıları yüklemeyi dene
+                if (typeof loadUserSongs === "function") {
+                    loadUserSongs(user.id);
+                }
 
             } catch (e) {
                 alert(e.message);
@@ -1132,7 +1620,129 @@
                 dateInput.setAttribute('min', today.toISOString().split('T')[0]);
             }
         });
+        function skipLogin() {
+            // Giriş ekranını gizle
+            const authScreen = document.getElementById('auth-screen');
+            if (authScreen) authScreen.style.display = 'none';
+
+            // Ana paneli göster
+            const mainPanel = document.getElementById('main-panel');
+            if (mainPanel) {
+                mainPanel.style.display = 'block';
+            }
+
+            // Opsiyonel: Konsola bilgi yazdır
+            console.log("Giriş ekranı Arji için atlandı.");
+        }
+        function showPage(pageId, element) {
+            // 1. Tüm sayfaları gizle
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => {
+                p.style.display = 'none';
+                p.classList.remove('active-page');
+            });
+
+            // 2. Seçilen sayfayı göster
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+                selectedPage.classList.add('active-page');
+            }
+
+            // 3. Menüdeki aktiflik (mavi/yeşil renk) durumunu güncelle
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            if (element) element.classList.add('active');
+        }
+        function submitRelease() {
+            const title = document.getElementById('release-title').value;
+            const artist = document.getElementById('release-artist').value;
+            const genre = document.getElementById('release-genre').value;
+
+            if (!title || !artist) {
+                alert("Lütfen tüm alanları doldur!");
+                return;
+            }
+
+            const newSong = {
+                id: Date.now(),
+                title: title,
+                artist: artist,
+                genre: genre,
+                status: "İncelemede",
+                date: new Date().toLocaleDateString()
+            };
+
+            mySongs.push(newSong); // Listeye ekle
+            updateSongsGrid(); // Arayüzü güncelle
+            showAlert("🚀", "Başarılı!", "Şarkınız inceleme listesine eklendi.");
+        }
+        function updateSongsGrid() {
+            const grid = document.getElementById('songs-grid');
+            const noSongsMsg = document.getElementById('no-songs-msg');
+
+            if (mySongs.length > 0) {
+                noSongsMsg.style.display = 'none'; // "Henüz eser yok" yazısını gizle
+                grid.innerHTML = ''; // İçini temizle
+
+                mySongs.forEach(song => {
+                    const card = `
+                <div class="song-card" style="background: #111; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #222;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="color: #1db954;">${song.title}</h3>
+                            <p style="font-size: 12px; color: #888;">${song.artist} • ${song.genre}</p>
+                        </div>
+                        <span style="background: #333; padding: 4px 8px; border-radius: 6px; font-size: 11px;">${song.status}</span>
+                    </div>
+                </div>
+            `;
+                    grid.innerHTML += card;
+                });
+            }
+        }
+        function previewImage(input) {
+            const preview = document.getElementById('cover-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.style.backgroundImage = `url(${e.target.result})`;
+                    preview.style.backgroundSize = 'cover';
+                    preview.style.backgroundPosition = 'center';
+                    preview.textContent = ''; // "Kapak Seç" yazısını kaldır
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function toggleTag(el) { el.classList.toggle('active'); }
+
+        function updateCount() {
+            var ta = document.getElementById('f-pitch');
+            if (ta.value.length > 500) ta.value = ta.value.substring(0, 500);
+            document.getElementById('char-count').textContent = ta.value.length;
+        }
+
+        function submitForm() {
+            var legal = document.getElementById('f-legal').value.trim();
+            var pitch = document.getElementById('f-pitch').value.trim();
+            if (!legal || !pitch) {
+                var btn = document.querySelector('.ep-submit');
+                btn.style.background = '#ef4444';
+                btn.style.color = '#fff';
+                btn.textContent = 'Zorunlu alanları doldur';
+                setTimeout(function () {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.innerHTML = 'Editörlere Gönder <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>';
+                }, 2000);
+                return;
+            }
+            document.getElementById('ep-form-view').style.display = 'none';
+            var sv = document.getElementById('ep-success-view');
+            sv.style.display = 'flex';
+        }
     </script>
+
 
 </body>
 
